@@ -1,7 +1,6 @@
 module.exports = {
     title: '王波的脚手架',
     description: '快速搭建项目',
-    docsRepo: 'codexu/codexu.github.io',
     themeConfig: {
         nav: [
             { text: '首页', link: '/' },
