@@ -24,12 +24,13 @@ export default () => {
         const fenafter = (((a*b)+(c*e))/(b+e));
         const shouyilvBefore = (((a-c)/a)*100);
         const shouyilvAfter = ((fenafter - values.c)/fenafter)*100;
-        const changeShouyilv = shouyilvBefore - shouyilvAfter;
+        const changeShouyilv =  shouyilvBefore - shouyilvAfter;
         const changeChengb = (values.a - fenafter);
-        handleResult({fenafter,shouyilvBefore,shouyilvAfter,changeShouyilv,changeChengb})
+        const isFu = a-b
+        handleResult({fenafter,shouyilvBefore,shouyilvAfter,changeShouyilv,changeChengb,isFu})
       }
 
-      const handleResult = ({fenafter,shouyilvBefore,shouyilvAfter,changeShouyilv,changeChengb}) => {
+      const handleResult = ({fenafter,shouyilvBefore,shouyilvAfter,changeShouyilv,changeChengb,isFu}) => {
         Modal.show({
             header: (
               <CheckCircleFill
@@ -50,15 +51,15 @@ export default () => {
               <div>
                 <div>
                         <List header="购买前">
-                            <List.Item style={{fontSize: 14}}>购买前持有收益率：<span>{getNum(shouyilvBefore) + '%' || '暂无'}</span></List.Item>
+            <List.Item style={{fontSize: 14}}>购买前持有收益率：<span>{isFu?'-':'+'}{getNum(shouyilvBefore) + '%' || '暂无'}</span></List.Item>
                         </List>
                 </div>
                 <div>
                         <List header="购买后">
-                            <List.Item style={{fontSize: 14}}>购买后持有收益率：<span>{getNum(shouyilvAfter) + '%' || '暂无'}</span></List.Item>
-                            <List.Item style={{fontSize: 14}}>收益率变化：<span>{getNum(changeShouyilv) + '%' || '暂无'}</span></List.Item>
+                            <List.Item style={{fontSize: 14}}>购买后持有收益率：<span>{isFu?'-':'+'}{getNum(shouyilvAfter) + '%' || '暂无'}</span></List.Item>
+                            <List.Item style={{fontSize: 14}}>收益率变化：<span>{isFu?'-':'+'}{getNum(changeShouyilv) + '%' || '暂无'}</span></List.Item>
                             <List.Item style={{fontSize: 14}}>购买后的持仓成本价格：<span>{getNum(fenafter) + '元' || '暂无'}</span></List.Item>
-                            <List.Item style={{fontSize: 14}}>持仓成本变化：<span>{getNum(changeChengb) + '元' || '暂无'}</span></List.Item>
+                            <List.Item style={{fontSize: 14}}>持仓成本变化：<span>{isFu?'-':'+'}{getNum(changeChengb) + '元' || '暂无'}</span></List.Item>
                         </List>
                 </div>
               </div>
@@ -72,7 +73,7 @@ export default () => {
       const handleChangeD = (val) => {
         const c = form.getFieldValue('c');
         const value = val/c;
-        form.setFieldsValue({"e": value})
+        value && form.setFieldsValue({"e": value})
      }
     
      const getNum = (val) => {
@@ -86,7 +87,7 @@ export default () => {
      const handleChangeC = (val) => {
         const d = form.getFieldValue('d');
         const value = d/val;
-        form.setFieldsValue({"e": value})
+        value && form.setFieldsValue({"e": value})
      }
 
     return (
@@ -107,7 +108,7 @@ export default () => {
                         { required: true }
                     ]}
                 >
-                    <Input type="number" placeholder='请输入持仓成本' />
+                    <Input placeholder='请输入持仓成本' />
                 </Form.Item>
                 <Form.Item
                     name='b'
@@ -116,7 +117,7 @@ export default () => {
                         { required: true }
                     ]}
                 >
-                    <Input type='number' placeholder='请输入持仓份额' />
+                    <Input placeholder='请输入持仓份额' />
                 </Form.Item>
                 <Form.Item
                     name='c'
@@ -125,7 +126,7 @@ export default () => {
                         { required: true }
                     ]}
                 >
-                    <Input type='number' onChange={handleChangeC} placeholder='请输入基金净值' />
+                    <Input onChange={handleChangeC} placeholder='请输入基金净值' />
                 </Form.Item>
                 <Form.Item
                     name='d'
@@ -134,7 +135,7 @@ export default () => {
                         { required: true }
                     ]}
                 >
-                    <Input type='number' onChange={handleChangeD} placeholder='请输入购买金额' />
+                    <Input onChange={handleChangeD} placeholder='请输入购买金额' />
                 </Form.Item>
                 <Form.Item
                     name='e'
@@ -143,7 +144,7 @@ export default () => {
                         { required: true }
                     ]}
                 >
-                    <Input type='number' placeholder='实际购买份额' />
+                    <Input placeholder='实际购买份额' />
                 </Form.Item>
             </Form>
       
