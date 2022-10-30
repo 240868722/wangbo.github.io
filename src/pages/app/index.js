@@ -78,7 +78,7 @@ export default () => {
     
      const getNum = (val) => {
         if(typeof val === 'number') {
-           return val.toFixed(2)
+           return val.toFixed(4)
         } else {
            return '-'
         }
